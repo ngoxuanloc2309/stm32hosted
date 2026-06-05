@@ -1,0 +1,6 @@
+[submodule "Host/lib/lwip"]
+	path = Host/lib/lwip
+	url = https://github.com/STMicroelectronics/stm32-mw-lwip.git
+[submodule "Host/lib/esp-hosted-mcu"]
+	path = Host/lib/esp-hosted-mcu
+	url = https://github.com/espressif/esp-hosted-mcu.git
