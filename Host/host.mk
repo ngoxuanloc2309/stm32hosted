@@ -8,6 +8,7 @@ HOST_DIR            = Host
 # =============================================================================
 ESP_HOSTED_DIR      = $(HOST_DIR)/lib/esp-hosted-mcu
 ESP_HOSTED_HOST     = $(ESP_HOSTED_DIR)/host
+ESP_HOSTED_PORT     = $(ESP_HOSTED_HOST)/port
 ESP_HOSTED_COMMON   = $(ESP_HOSTED_DIR)/common
 
 # =============================================================================
@@ -184,6 +185,7 @@ HOST_INCLUDES = \
     -I$(ESP_HOSTED_COMMON)/rpc                                  \
     -I$(ESP_HOSTED_COMMON)/transport                            \
     \
+    -I$(ESP_HOSTED_PORT)/esp/freertos/include                   \
     -I$(LWIP_SRC)/include                                       \
     -I$(LWIP_DIR)/system                                        \
     -I$(LWIP_DIR)/system/arch
