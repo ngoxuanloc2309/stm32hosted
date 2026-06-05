@@ -17,10 +17,16 @@ LWIP_DIR            = $(HOST_DIR)/lib/lwip
 LWIP_SRC            = $(LWIP_DIR)/src
 
 # =============================================================================
+# Stub Headers (ESP-IDF compatibility layer for STM32)
+# =============================================================================
+STUB_HEADER_FILES = \
+    $(HOST_DIR)/stub_header/esp_log_impl.c
+
+# =============================================================================
 # App
 # =============================================================================
 APP_FILES = \
-    $(HOST_DIR)/app/app_main.c
+    $(HOST_DIR)/app/app.c
 
 # =============================================================================
 # Port layer (STM32H5 HAL wrappers - tự viết)
@@ -137,6 +143,7 @@ LWIP_SYS_FILES = \
 # All Host Sources
 # =============================================================================
 HOST_SOURCES = \
+    $(STUB_HEADER_FILES)            \
     $(APP_FILES)                    \
     $(PORT_FILES)                   \
     $(SERVICES_FILES)               \
@@ -152,6 +159,7 @@ HOST_SOURCES = \
 # Include Paths
 # =============================================================================
 HOST_INCLUDES = \
+    -I$(HOST_DIR)/stub_header                                   \
     -I$(HOST_DIR)/app                                           \
     -I$(HOST_DIR)/port                                          \
     -I$(HOST_DIR)/services/wifi_service                         \

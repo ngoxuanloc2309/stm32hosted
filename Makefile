@@ -34,6 +34,9 @@ BUILD_DIR = build
 ######################################
 # source
 ######################################
+
+include Host/host.mk
+
 # C sources
 C_SOURCES =  \
 Core/Src/main.c \
@@ -78,6 +81,9 @@ Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
 Core/Src/sysmem.c \
 Core/Src/syscalls.c
+
+C_SOURCES += \
+	$(HOST_SOURCES) \
 
 # ASM sources
 ASM_SOURCES =  \
@@ -157,6 +163,7 @@ C_INCLUDES =  \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/ \
 -IMiddlewares/Third_Party/CMSIS/RTOS2/Include/
 
+C_INCLUDES += $(HOST_INCLUDES)
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
