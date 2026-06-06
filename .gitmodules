@@ -4,3 +4,15 @@
 [submodule "Host/lib/esp-hosted-mcu"]
 	path = Host/lib/esp-hosted-mcu
 	url = https://github.com/espressif/esp-hosted-mcu.git
+[submodule "Host/libs/lwip"]
+	path = Host/libs/lwip
+	url = https://github.com/STMicroelectronics/stm32-mw-lwip
+[submodule "Host/libs/coreMQTT"]
+	path = Host/libs/coreMQTT
+	url = https://github.com/FreeRTOS/coreMQTT
+[submodule "Host/libs/backoffAlgorithm"]
+	path = Host/libs/backoffAlgorithm
+	url = https://github.com/FreeRTOS/backoffAlgorithm
+[submodule "Host/libs/esp-hosted"]
+	path = Host/libs/esp-hosted
+	url = https://github.com/espressif/esp-hosted
