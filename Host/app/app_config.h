@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-#define USR_SPI_CS_GPIO_Port            GPIOB
-#define USR_SPI_CS_Pin                  GPIO_PIN_1
+#define USR_SPI_CS_GPIO_Port            GPIOD
+#define USR_SPI_CS_Pin                  GPIO_PIN_12
 #define SCK_PORT                        GPIOA
 #define SCK_PIN                         GPIO_PIN_5
 #define MISO_PORT                       GPIOA

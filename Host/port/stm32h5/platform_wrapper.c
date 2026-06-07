@@ -415,3 +415,8 @@ int serial_drv_close(struct serial_drv_handle_t **serial_drv_handle)
     *serial_drv_handle = NULL;
     return STM_OK;
 }
+
+uint32_t sys_now(void)
+{
+    return (uint32_t)(xTaskGetTickCount() * portTICK_PERIOD_MS);
+}

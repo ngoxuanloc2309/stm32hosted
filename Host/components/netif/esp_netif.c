@@ -18,17 +18,14 @@ static struct network_handle *sta_net_handle = NULL;
 static uint8_t               sta_mac[6]      = {0x02, 0x00, 0x00, 0x00, 0x00, 0x01};
 
 /* ==== TX path: lwIP -> esp_hosted ==== */
-static err_t low_level_output(struct netif *netif, struct esp_pbuf *p)
+static err_t low_level_output(struct netif *netif, struct pbuf *p)
 {
-    struct esp_pbuf *q;
     struct esp_pbuf esp_buf;
-    uint8_t *tx_data;
-    uint16_t total_len = p->tot_len;
-
-    tx_data = (uint8_t *)pvPortMalloc(total_len);
+    uint8_t *tx_data = (uint8_t *)pvPortMalloc(p->tot_len);
     if (!tx_data)
         return ERR_MEM;
 
+    struct pbuf *q;
     uint16_t offset = 0;
     for (q = p; q != NULL; q = q->next) {
         memcpy(tx_data + offset, q->payload, q->len);
@@ -36,10 +33,9 @@ static err_t low_level_output(struct netif *netif, struct esp_pbuf *p)
     }
 
     esp_buf.payload = tx_data;
-    esp_buf.len     = total_len;
+    esp_buf.len     = p->tot_len;
 
     int ret = network_write(sta_net_handle, &esp_buf);
-
     vPortFree(tx_data);
     return (ret == 0) ? ERR_OK : ERR_IF;
 }
@@ -47,7 +43,7 @@ static err_t low_level_output(struct netif *netif, struct esp_pbuf *p)
 /* ==== RX path: esp_hosted -> lwIP ==== */
 static void sta_rx_callback(struct network_handle *net_handle)
 {
-    struct pbuf *esp_buf = network_read(net_handle, 0);
+    struct esp_pbuf *esp_buf = network_read(net_handle, 0);
     if (!esp_buf)
         return;
 
@@ -59,14 +55,12 @@ static void sta_rx_callback(struct network_handle *net_handle)
     }
 
     memcpy(p->payload, esp_buf->payload, esp_buf->len);
-
     vPortFree(esp_buf->payload);
     vPortFree(esp_buf);
 
     if (sta_netif.input(p, &sta_netif) != ERR_OK)
         pbuf_free(p);
 }
-
 /* ==== lwIP netif init callback ==== */
 static err_t esp_netif_init_cb(struct netif *netif)
 {
@@ -105,12 +99,22 @@ int esp_netif_init(void)
 
     netif_set_default(&sta_netif);
 
+    // sta_net_handle = network_open(STA_INTERFACE, sta_rx_callback);
+    // if (!sta_net_handle) {
+    //     printf("esp_netif_init: network_open failed\r\n");
+    //     return -1;
+    // }
+
+    return 0;
+}
+
+int esp_netif_open(void)
+{
     sta_net_handle = network_open(STA_INTERFACE, sta_rx_callback);
     if (!sta_net_handle) {
-        printf("esp_netif_init: network_open failed\r\n");
+        printf("esp_netif_open: network_open failed\r\n");
         return -1;
     }
-
     return 0;
 }
 

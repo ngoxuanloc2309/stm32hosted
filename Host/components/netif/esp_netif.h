@@ -47,6 +47,8 @@ void esp_netif_sta_down(void);
  */
 int esp_netif_is_sta_connected(void);
 
+int esp_netif_open(void);
+
 #ifdef __cplusplus
 }
 #endif

@@ -28,7 +28,7 @@ $(ESP_HOSTED_DIR)/host/components/src/esp_queue.c \
 $(ESP_HOSTED_DIR)/host/control_lib/src/ctrl_api.c \
 $(ESP_HOSTED_DIR)/host/control_lib/src/ctrl_core.c \
 $(ESP_HOSTED_DIR)/common/esp_hosted_config.pb-c.c \
-$(ESP_HOSTED_DIR)/common/protobuf-c/protobuf-c.c \
+$(ESP_HOSTED_DIR)/common/protobuf-c/protobuf-c/protobuf-c.c \
 \
 $(LWIP_DIR)/src/core/init.c \
 $(LWIP_DIR)/src/core/def.c \
@@ -72,10 +72,14 @@ $(LWIP_DIR)/src/api/netifapi.c \
 $(LWIP_DIR)/src/api/sockets.c \
 $(LWIP_DIR)/src/api/tcpip.c \
 $(LWIP_DIR)/system/OS/sys_arch.c \
+$(LWIP_DIR)/src/core/ipv4/acd.c \
 \
 $(COREMQTT_DIR)/source/core_mqtt.c \
 $(COREMQTT_DIR)/source/core_mqtt_serializer.c \
-$(COREMQTT_DIR)/source/core_mqtt_state.c
+$(COREMQTT_DIR)/source/core_mqtt_state.c \
+$(COREMQTT_DIR)/source/core_mqtt_prop_deserializer.c \
+$(COREMQTT_DIR)/source/core_mqtt_prop_serializer.c \
+$(COREMQTT_DIR)/source/core_mqtt_serializer_private.c \
 
 # ==== Host Includes ====
 HOST_INCLUDES = \

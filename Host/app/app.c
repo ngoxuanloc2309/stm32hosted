@@ -12,6 +12,7 @@
 #include "task.h"
 
 static int wifi_connected = 0;
+static volatile int s_transport_ready = 0;
 
 /* ==== Event Callbacks ==== */
 static int on_sta_connected(ctrl_cmd_t *event)
@@ -38,11 +39,11 @@ static void transport_event_handler(uint8_t event)
     switch (event) {
         case TRANSPORT_ACTIVE:
             printf("app: transport active\r\n");
+            esp_netif_open();
             init_hosted_control_lib();
-            set_event_callback(CTRL_EVENT_STATION_CONNECTED_TO_AP,
-                    on_sta_connected);
-            set_event_callback(CTRL_EVENT_STATION_DISCONNECT_FROM_AP,
-                    on_sta_disconnected);
+            set_event_callback(CTRL_EVENT_STATION_CONNECTED_TO_AP, on_sta_connected);
+            set_event_callback(CTRL_EVENT_STATION_DISCONNECT_FROM_AP, on_sta_disconnected);
+            s_transport_ready = 1;
             break;
         default:
             break;
@@ -121,7 +122,10 @@ void app_main(void)
 
     transport_init(transport_event_handler);
 
-    vTaskDelay(pdMS_TO_TICKS(3000));
+    while (!s_transport_ready)
+        vTaskDelay(pdMS_TO_TICKS(100));
+
+    printf("app: transport ready, connecting wifi\r\n");
 
     if (wifi_connect() != 0) {
         printf("app: wifi_connect failed\r\n");
